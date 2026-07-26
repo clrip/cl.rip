@@ -3,154 +3,104 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cylian</title>
-    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
-    <link rel="icon" href="/m/icon-32.png" type="image/png" sizes="32x32">
-    <link rel="icon" href="/m/icon-192.png" type="image/png" sizes="192x192">
-    <link rel="apple-touch-icon" href="/m/apple-touch-icon.png" sizes="180x180">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="m/icon-32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="m/icon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="m/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#0970E6">
     <style>
         :root {
             color-scheme: dark;
             --accent: #0970E6;
-            --accent-lift: #0B7BF5;
-            --accent-deep: #0A55B0;
-            --accent-wash: rgba(9, 112, 230, .12);
             --bg: #000;
-            --surface: #0E0E0E;
-            --surface-hi: #161616;
             --fg: #FFF;
             --dim: #8F8F8F;
+            --surface: #0E0E0E;
+            --surface-hi: #161616;
             --on-accent: #04121F;
         }
 
         * { box-sizing: border-box; }
         ::selection { background: var(--accent); color: var(--bg); }
 
-        html { scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface); }
-        ::-webkit-scrollbar { width: 10px; height: 10px; }
-        ::-webkit-scrollbar-track { background: var(--surface); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-deep); }
-
+        /* Card plus tools is the whole page, so centre the stack in the viewport. */
         body {
-            margin: 0 auto;
-            padding: 32px 20px 72px;
-            max-width: 560px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 24px;
             background: var(--bg);
             color: var(--fg);
             font: 400 15px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
             -webkit-font-smoothing: antialiased;
         }
+        .wrap { width: 100%; max-width: 520px; }
 
         a { text-decoration: none; color: inherit; }
 
-        /* Segmented control, the way a native app tabs between views. */
-        .dock {
-            display: inline-flex;
-            gap: 4px;
-            margin: 0 0 24px;
-            padding: 5px;
-            border-radius: 999px;
-            background: var(--surface);
-        }
-        .dock a {
-            padding: 8px 16px;
-            border-radius: 999px;
-            color: var(--dim);
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .dock a.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }
-        .dock a:not(.on):hover { color: var(--fg); }
-
-        /* Proportioned like a real business card, logo up top, details at the foot. */
-        .hero {
+        /* Real card proportions. Mark at the top, identity along the bottom edge,
+           the middle deliberately left empty the way a printed card is. */
+        .card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            width: 100%;
             aspect-ratio: 1.75 / 1;
-            padding: 28px;
-            border-radius: 26px;
-            background: linear-gradient(155deg, var(--accent-lift), var(--accent-deep));
-            box-shadow: 0 24px 70px rgba(9, 112, 230, .28);
+            padding: 26px 28px;
+            border-radius: 24px;
+            background: linear-gradient(150deg, #1183FF, #0A5FC4 55%, #084E9E);
+            box-shadow: 0 24px 70px rgba(9, 112, 230, .30),
+                        inset 0 1px 0 rgba(255, 255, 255, .22);
             color: var(--on-accent);
         }
-        /* Logo sits straight on the blue, no plate behind it. */
-        .logo { display: block; width: 40px; height: 40px; }
 
-        .hero h1 {
-            margin: 0 0 2px;
-            font-size: 28px;
+        /* Logo sits straight on the blue, no plate behind it. */
+        .logo { display: block; width: 38px; height: 38px; }
+        .cardfoot {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .cardfoot h1 {
+            margin: 0 0 1px;
+            font-size: 27px;
             font-weight: 700;
             letter-spacing: -.025em;
         }
-        .role { margin: 0 0 12px; color: rgba(0, 0, 0, .55); font-weight: 500; }
-        .contact { margin: 0; font-weight: 600; }
-        .contact a:hover { text-decoration: underline; }
+
+        .reach { font-size: 13.5px; font-weight: 600; }
+        .reach:hover { text-decoration: underline; }
 
         h2 {
-            margin: 40px 0 12px;
+            margin: 30px 0 10px;
             color: var(--accent);
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .08em;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
             text-transform: uppercase;
         }
 
-        .about {
-            padding: 20px 22px;
-            border-radius: 24px;
-            background: var(--accent-wash);
-            color: #B4B4B4;
-        }
-        .about p { margin: 0 0 10px; }
-        .about p:last-child { margin: 0; }
-        .about strong { color: var(--fg); font-weight: 600; }
-
         ul { margin: 0; padding: 0; list-style: none; }
-        .applist { display: grid; gap: 8px; }
-        .applist a {
+        .tools { display: grid; gap: 8px; }
+        .tools a {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 14px;
-            border-radius: 22px;
+            padding: 13px 14px;
+            border-radius: 18px;
             background: var(--surface);
         }
-        .applist a:hover { background: var(--surface-hi); }
+        .tools a:hover { background: var(--surface-hi); }
 
-        /* Launcher-style tile, so each entry reads as an app rather than a link. */
-        .tile {
-            display: flex;
-            flex: none;
-            align-items: center;
-            justify-content: center;
-            width: 46px;
-            height: 46px;
-            border-radius: 15px;
-            background: linear-gradient(155deg, var(--accent-lift), var(--accent-deep));
-            color: var(--on-accent);
-            font-size: 19px;
-            font-weight: 700;
-        }
-        .tile img { display: block; width: 100%; height: 100%; border-radius: 15px; }
-
+        /* Launcher tile, so each entry reads as an app rather than a link. */
+        .tile { flex: none; width: 42px; height: 42px; border-radius: 13px; }
         .meta { display: flex; min-width: 0; flex-direction: column; }
-        .meta b { font-size: 15px; font-weight: 600; }
-        .meta span { color: var(--dim); font-size: 13.5px; line-height: 1.45; }
-
-        .tag {
-            flex: none;
-            margin-left: 8px;
-            padding: 3px 10px;
-            border-radius: 999px;
-            background: var(--accent);
-            color: var(--on-accent);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: .04em;
-        }
+        .meta b { font-size: 14.5px; font-weight: 600; }
+        .meta span { color: var(--dim); font-size: 13px; line-height: 1.4; }
 
         .chev {
             flex: none;
@@ -161,88 +111,41 @@
             border-bottom: 2px solid #4A4A4A;
             transform: rotate(-45deg);
         }
-        .applist a:hover .chev { border-color: var(--accent); }
+        .tools a:hover .chev { border-color: var(--accent); }
 
-        footer { margin: 48px 0 0; color: #5E5E5E; font-size: 13px; }
+        @media (max-width: 430px) {
+            .cardfoot { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
     </style>
 </head>
 <body>
 
-<nav class="dock">
-    <a class="on" href="#work">Work</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-</nav>
+<div class="wrap">
 
-<section class="hero">
-    <img class="logo" src="m/icon.png" alt="" />
-    <div>
-        <h1>Cylian</h1>
-        <!-- EDIT ME: your role. -->
-        <p class="role">Web developer</p>
-        <p class="contact"><a href="mailto:hi@cylian.nl">hi@cylian.nl</a></p>
-    </div>
-</section>
+    <main class="card">
+        <img class="logo" src="m/icon-inverted.png" alt="" />
+        <div class="cardfoot">
+            <h1>Cylian</h1>
+            <a class="reach" href="mailto:i@cl.rip">i@cl.rip</a>
+        </div>
+    </main>
 
-<h2 id="work">Things I made</h2>
-<ul class="applist">
-    <li>
-        <a href="/t/r/c.html">
-            <span class="tile"><img src="m/icon.png" alt="" /></span>
-            <span class="meta">
-                <b>Clothing Template Downloader<span class="tag">LIVE</span></b>
-                <span>Pulls the flat PNG out of any Roblox classic shirt, pants or T-shirt.</span>
-            </span>
-            <span class="chev"></span>
-        </a>
-    </li>
-    <!-- EDIT ME: copy this block for each additional project. -->
-    <li>
-        <a href="#">
-            <span class="tile">A</span>
-            <span class="meta">
-                <b>Another project</b>
-                <span>One line on what it does and who it is for.</span>
-            </span>
-            <span class="chev"></span>
-        </a>
-    </li>
-</ul>
+    <h2>Tools</h2>
+    <ul class="tools">
+        <li>
+            <a href="t/r/c.html">
+                <img class="tile" src="m/icon.png" alt="" />
+                <span class="meta">
+                    <b>Clothing Template Downloader</b>
+                    <span>Roblox classic shirt, pants and T-shirt templates</span>
+                </span>
+                <span class="chev"></span>
+            </a>
+        </li>
+        <!-- EDIT ME: copy this block for each additional tool. -->
+    </ul>
 
-<!-- EDIT ME: swap this for your own intro. -->
-<h2 id="about">About</h2>
-<div class="about">
-    <p>Most of what I make starts the same way. I need something, the thing that exists is
-    slow or asks me to sign in, so I build a smaller version that does the one job.</p>
-    <p>Everything here is <strong>plain HTML, no build step, no tracking</strong>, and loads
-    in well under a second.</p>
 </div>
-
-<h2 id="contact">Contact</h2>
-<ul class="applist">
-    <li>
-        <a href="mailto:hi@cylian.nl">
-            <span class="tile">@</span>
-            <span class="meta">
-                <b>Email</b>
-                <span>hi@cylian.nl</span>
-            </span>
-            <span class="chev"></span>
-        </a>
-    </li>
-    <li>
-        <a href="https://github.com/cyliannl">
-            <span class="tile">G</span>
-            <span class="meta">
-                <b>GitHub</b>
-                <span>github.com/cyliannl</span>
-            </span>
-            <span class="chev"></span>
-        </a>
-    </li>
-</ul>
-
-<footer>No analytics, no cookies, nothing to accept.</footer>
 
 </body>
 </html>
